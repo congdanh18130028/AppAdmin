@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -54,7 +55,7 @@ import retrofit2.Response;
 public class AddProductFragment extends Fragment {
     public static final String TAG = Manifest.class.getName();
     private static final int MY_REQUEST_CODE = 10 ;
-    private ImageButton btn_add_img_product;
+    private ImageButton btn_add_img_product, btn_add_category;
     private Button commit;
     private ImageView img_product;
     private Uri mUri;
@@ -100,8 +101,21 @@ public class AddProductFragment extends Fragment {
         mProgressDialog.setMessage("Please wait...");
         setCategory();
         setOnClickBtnAddImgProduct();
+        setOnclickBtnShowDialogAddCategory(view);
         setOnClickBtnCommitProduct();
         return view;
+
+    }
+
+    private void setOnclickBtnShowDialogAddCategory(View view) {
+        btn_add_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CategoryDialog dialog = new CategoryDialog(AddProductFragment.this);
+                dialog.show(getChildFragmentManager(), "Add category dialog");
+
+            }
+        });
 
     }
 
@@ -156,7 +170,7 @@ public class AddProductFragment extends Fragment {
 
     }
 
-    private void setCategory() {
+    public void setCategory() {
 
         ApiServices.apiService.getCategories().enqueue(new Callback<List<Category>>() {
             @Override
@@ -233,5 +247,6 @@ public class AddProductFragment extends Fragment {
         edt_name = view.findViewById(R.id.edt_product_name);
         edt_price = view.findViewById(R.id.edt_product_price);
         edt_quantity = view.findViewById(R.id.edt_product_quantity);
+        btn_add_category = view.findViewById(R.id.btn_add_category);
     }
 }

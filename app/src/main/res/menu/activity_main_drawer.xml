@@ -9,9 +9,20 @@
 
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:title="Sản phẩm">
 
-            android:title="@string/menu_gallery" />
+            <menu>
+                <item
+                    android:id="@+id/nav_add_product"
+                    android:title="Thêm sản phẩm"/>
+
+                <item
+                    android:id="@+id/nav_list_product"
+                    android:title="Danh sách sản phẩm"/>
+            </menu>
+
+
+        </item>
         <item
             android:id="@+id/nav_slideshow"
 

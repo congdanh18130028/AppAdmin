@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int FRAGMENT_ADD_PRODUCT = 1;
+    private static final int FRAGMENT_PRODUCTS = 2;
     private int current_fragment = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.nav_home){
+        if(id == R.id.nav_add_product){
             if(FRAGMENT_ADD_PRODUCT != current_fragment){
                 replaceFragment(new AddProductFragment());
                 current_fragment = FRAGMENT_ADD_PRODUCT;
+            }
+        }
+        if(id == R.id.nav_list_product){
+            if(FRAGMENT_PRODUCTS != current_fragment){
+                replaceFragment(new ProductsFragment());
+                current_fragment = FRAGMENT_PRODUCTS;
             }
         }
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
