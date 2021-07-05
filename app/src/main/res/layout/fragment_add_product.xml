@@ -26,9 +26,7 @@
                 android:layout_width="350dp"
                 android:layout_height="350dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-
-                tools:src="@tools:sample/avatars" />
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/btn_add_img_product"

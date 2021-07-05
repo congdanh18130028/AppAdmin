@@ -1,7 +1,9 @@
 package com.example.adminapp.api;
 
 import com.example.adminapp.models.Category;
+import com.example.adminapp.models.FilePath;
 import com.example.adminapp.models.Product;
+import com.example.adminapp.models.ProductEdit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -13,10 +15,15 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -42,6 +49,10 @@ public interface ApiServices {
                               @Part("quantity")RequestBody quantity,
                               @Part("price")RequestBody price);
 
+    @Multipart
+    @POST("api/products/img")
+    Call<FilePath> addImg(@Part MultipartBody.Part file);
+
     @GET("api/products/categories")
     Call<List<Category>> getCategories();
 
@@ -51,4 +62,18 @@ public interface ApiServices {
     @GET("api/products")
     Call<List<Product>> getProducts();
 
+    @DELETE("api/products/{id}")
+    Call<Void> deleteProduct(@Path("id") int id);
+
+    @GET("api/products/{id}")
+    Call<Product> getProduct(@Path("id") int id);
+
+    @PATCH("api/products/{id}")
+    Call<Void> updateProduct(@Path("id") int id,
+                             @Body List<ProductEdit> list);
+
+    @FormUrlEncoded
+    @PATCH("api/products/img/{id}")
+    Call<Void> updateImgProduct(@Path("id") int id,
+                                @Field("link") String link);
 }

@@ -1,5 +1,6 @@
 package com.example.adminapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,6 +38,13 @@ public class ProductsFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume() {
+        setListProduct();
+        super.onResume();
+    }
+
     private void setListProduct() {
 
         ApiServices.apiService.getProducts().enqueue(new Callback<List<Product>>() {

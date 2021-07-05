@@ -1,6 +1,5 @@
 package com.example.adminapp;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,28 +10,23 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.adminapp.api.ApiServices;
-import com.example.adminapp.models.Category;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryDialog extends DialogFragment {
+public class CategoryDialogEdit extends DialogFragment {
     private EditText edt;
     private Button btn_ok, btn_cancel;
 
-    private AddProductFragment addProductFragment;
+    private EditCategoryProductActivity editCategoryProductActivity;
 
-
-    public CategoryDialog(AddProductFragment addProductFragment) {
-        this.addProductFragment = addProductFragment;
+    public CategoryDialogEdit(EditCategoryProductActivity editCategoryProductActivity) {
+        this.editCategoryProductActivity = editCategoryProductActivity;
     }
-
 
     @Nullable
     @Override
@@ -54,7 +48,7 @@ public class CategoryDialog extends DialogFragment {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()){
-                                addProductFragment.setCategory();
+                                editCategoryProductActivity.setCategory();
                                 getDialog().dismiss();
                                 Toast.makeText(getContext(), "success!", Toast.LENGTH_SHORT).show();
                             }
