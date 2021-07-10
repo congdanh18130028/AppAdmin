@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final int FRAGMENT_ADD_PRODUCT = 1;
     private static final int FRAGMENT_PRODUCTS = 2;
+    private static final int FRAGMENT_USERS = 3;
+    private static final int FRAGMENT_BILL_CONFIRM = 4;
     private int current_fragment = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -82,6 +82,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 current_fragment = FRAGMENT_PRODUCTS;
             }
         }
+        if(id == R.id.nav_list_user){
+            if(FRAGMENT_USERS != current_fragment){
+                replaceFragment(new UsersFragment());
+                current_fragment = FRAGMENT_USERS;
+            }
+        }
+        if(id == R.id.nav_confirm_bill){
+            if(FRAGMENT_BILL_CONFIRM != current_fragment){
+                replaceFragment(new ConfirmBillFragment());
+                current_fragment = FRAGMENT_BILL_CONFIRM;
+            }
+        }
+
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

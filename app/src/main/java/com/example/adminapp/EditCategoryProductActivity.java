@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.Category;
 import com.example.adminapp.models.ProductEdit;
+import com.example.adminapp.utils.DataLocalManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class EditCategoryProductActivity extends AppCompatActivity {
                 ProductEdit pEdit = new ProductEdit(newCategory, "/category", "replace");
                 List<ProductEdit> list = new ArrayList<>();
                 list.add(pEdit);
-                ApiServices.apiService.updateProduct(ID, list).enqueue(new Callback<Void>() {
+                ApiServices.apiService.updateProduct(DataLocalManager.getToken(), ID, list).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if(response.isSuccessful()){

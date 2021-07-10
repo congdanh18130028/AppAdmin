@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.Category;
+import com.example.adminapp.utils.DataLocalManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +51,7 @@ public class CategoryDialog extends DialogFragment {
             public void onClick(View v) {
                 String category = edt.getText().toString().trim();
                 if(!category.equals("")){
-                    ApiServices.apiService.addCategory(category).enqueue(new Callback<Void>() {
+                    ApiServices.apiService.addCategory(DataLocalManager.getToken(), category).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()){

@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.Category;
 import com.example.adminapp.models.Product;
+import com.example.adminapp.utils.DataLocalManager;
 import com.example.adminapp.utils.RealPathUtil;
 
 import java.io.File;
@@ -146,7 +147,7 @@ public class AddProductFragment extends Fragment {
         RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBodyImg = MultipartBody.Part.createFormData("file", file.getName(), requestBodyImg);
 
-        ApiServices.apiService.addProducts(requestBodyName, requestBodyCategory, multipartBodyImg, requestBodyDescription, requestBodyQuantity, requestBodyPrice).enqueue(new Callback<Product>() {
+        ApiServices.apiService.addProducts(DataLocalManager.getToken(), requestBodyName, requestBodyCategory, multipartBodyImg, requestBodyDescription, requestBodyQuantity, requestBodyPrice).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if(response.isSuccessful()){

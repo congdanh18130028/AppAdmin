@@ -27,8 +27,13 @@
 
         </item>
         <item
-            android:id="@+id/nav_slideshow"
+            android:title="Đơn hàng">
+            <menu>
+                <item android:id="@+id/nav_confirm_bill"
+                    android:title="Xác nhận đơn hàng"/>
 
-            android:title="@string/menu_slideshow" />
+            </menu>
+
+        </item>
     </group>
 </menu>

@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.FilePath;
 import com.example.adminapp.models.ProductEdit;
+import com.example.adminapp.utils.DataLocalManager;
 import com.example.adminapp.utils.RealPathUtil;
 import com.google.gson.Gson;
 
@@ -118,12 +119,12 @@ public class EditImgProduct extends AppCompatActivity {
         File file = new File(strRealPath);
         RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part multipartBodyImg = MultipartBody.Part.createFormData("file", file.getName(), requestBodyImg);
-        ApiServices.apiService.addImg(multipartBodyImg).enqueue(new Callback<FilePath>() {
+        ApiServices.apiService.addImg(DataLocalManager.getToken(), multipartBodyImg).enqueue(new Callback<FilePath>() {
             @Override
             public void onResponse(Call<FilePath> call, Response<FilePath> response) {
                 if(response.isSuccessful()){
                     FilePath filePath = response.body();
-                    ApiServices.apiService.updateImgProduct(ID, filePath.getPath()).enqueue(new Callback<Void>() {
+                    ApiServices.apiService.updateImgProduct(DataLocalManager.getToken(), ID, filePath.getPath()).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()){

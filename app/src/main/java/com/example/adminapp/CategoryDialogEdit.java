@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.adminapp.api.ApiServices;
+import com.example.adminapp.utils.DataLocalManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +45,7 @@ public class CategoryDialogEdit extends DialogFragment {
             public void onClick(View v) {
                 String category = edt.getText().toString().trim();
                 if(!category.equals("")){
-                    ApiServices.apiService.addCategory(category).enqueue(new Callback<Void>() {
+                    ApiServices.apiService.addCategory(DataLocalManager.getToken(), category).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if(response.isSuccessful()){

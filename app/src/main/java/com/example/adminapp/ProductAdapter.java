@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.Product;
+import com.example.adminapp.utils.DataLocalManager;
 import com.example.adminapp.utils.FormatCurrence;
 import com.squareup.picasso.Picasso;
 
@@ -48,16 +49,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ProductDetailsActivity.class);
-//                TextView textView = view.findViewById(R.id.txt_id_list);
-//                String id = textView.getText().toString();
-//                intent.putExtra("id",id);
-//                mContext.startActivity(intent);
-//            }
-//        });
+
         return new ProductViewHolder(view);
     }
 
@@ -74,6 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -104,7 +97,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int idd) {
                                     ID = Integer.parseInt(id.getText().toString());
-                                    ApiServices.apiService.deleteProduct(ID).enqueue(new Callback<Void>() {
+                                    ApiServices.apiService.deleteProduct(DataLocalManager.getToken(), ID).enqueue(new Callback<Void>() {
                                         @Override
                                         public void onResponse(Call<Void> call, Response<Void> response) {
                                             mListProduct.remove(getBindingAdapterPosition());
