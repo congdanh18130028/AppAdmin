@@ -32,7 +32,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-
+//"http://192.168.31.237:45455"
 public interface ApiServices {
 
     Gson gson = new GsonBuilder()
@@ -41,11 +41,10 @@ public interface ApiServices {
             .create();
     
     ApiServices apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.31.237:45455")
+            .baseUrl("https://chaudecor.tk")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiServices.class);
-
 
 
     @Multipart
@@ -88,7 +87,7 @@ public interface ApiServices {
                              @Path("id") int id,
                              @Body List<ProductEdit> list);
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+//    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @FormUrlEncoded
     @PATCH("api/products/img/{id}")
     Call<Void> updateImgProduct(@Header("Authorization") String Aut,

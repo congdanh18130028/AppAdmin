@@ -124,21 +124,26 @@ public class EditImgProduct extends AppCompatActivity {
             public void onResponse(Call<FilePath> call, Response<FilePath> response) {
                 if(response.isSuccessful()){
                     FilePath filePath = response.body();
-                    ApiServices.apiService.updateImgProduct(DataLocalManager.getToken(), ID, filePath.getPath()).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if(response.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), "success!", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                    if(filePath.getPath()!= null){
+                        ApiServices.apiService.updateImgProduct(DataLocalManager.getToken(), ID, filePath.getPath()).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if(response.isSuccessful()){
+                                    Toast.makeText(getApplicationContext(), "success!", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), "fail api", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "fail api", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else {
+                        Toast.makeText(getApplicationContext(), "path null", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
 

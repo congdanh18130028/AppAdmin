@@ -15,6 +15,7 @@ import com.example.adminapp.api.ApiServices;
 import com.example.adminapp.models.Bill;
 import com.example.adminapp.utils.DataLocalManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +35,7 @@ public class ConfirmBillFragment extends Fragment {
         rcvBillConfirm.setLayoutManager(manager);
         setListBillConfirm();
         rcvBillConfirm.setAdapter(billAdapter);
+
         return view;
     }
 
