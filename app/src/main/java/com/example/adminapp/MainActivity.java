@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        replaceFragment(new ConfirmBillFragment());
+        current_fragment = FRAGMENT_BILL_CONFIRM;
+
     }
 
     @Override

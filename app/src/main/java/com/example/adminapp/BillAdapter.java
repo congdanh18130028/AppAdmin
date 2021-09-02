@@ -165,7 +165,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
                 @Override
                 public void onClick(View v) {
                    ID = Integer.parseInt(id.getText().toString());
-                   ApiServices.apiService.confirmBill(ID, 1).enqueue(new Callback<Void>() {
+                   ApiServices.apiService.confirmBill(DataLocalManager.getToken(), ID, 1).enqueue(new Callback<Void>() {
                        @Override
                        public void onResponse(Call<Void> call, Response<Void> response) {
                            if(response.isSuccessful()){

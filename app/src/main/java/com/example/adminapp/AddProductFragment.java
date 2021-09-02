@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class AddProductFragment extends Fragment {
     private Spinner spinner;
     private EditText edt_name, edt_description, edt_quantity, edt_price;
 
-    private ProgressDialog mProgressDialog;
+    private ProgressBar progressBar;
 
     private ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -94,8 +95,7 @@ public class AddProductFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
 
         setView(view);
-        mProgressDialog = new ProgressDialog(getContext());
-        mProgressDialog.setMessage("Please wait...");
+        progressBar = view.findViewById(R.id.progressBarAddProduct);
         setCategory();
         setOnClickBtnAddImgProduct();
         setOnclickBtnShowDialogAddCategory(view);
@@ -122,47 +122,77 @@ public class AddProductFragment extends Fragment {
             public void onClick(View v) {
                 if(mUri!=null){
                     callApiUploadProduct();
+                }else {
+                    Toast.makeText(getContext(), "Hình ảnh không được để trống", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private boolean checkField(String name, String description, String quantity, String price, String category){
+        if(name.equals("")){
+            Toast.makeText(getContext(), "Chưa nhập tên sản phẩm", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(quantity.equals("")){
+            Toast.makeText(getContext(), "Chưa nhập số lượng", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(price.equals("")){
+            Toast.makeText(getContext(), "Chưa nhập giá", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(category.equals("")){
+            Toast.makeText(getContext(), "Chưa nhập loại sản phẩm", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     private void callApiUploadProduct() {
-        mProgressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
         String name = edt_name.getText().toString().trim();
         String description = edt_description.getText().toString().trim();
         String quantity = edt_quantity.getText().toString().trim();
         String price = edt_price.getText().toString().trim();
         String category = spinner.getSelectedItem().toString();
+        if(checkField(name, description, quantity, price, category)){
 
-        RequestBody requestBodyName = RequestBody.create(MediaType.parse("multipart/form-data"), name);
-        RequestBody requestBodyCategory = RequestBody.create(MediaType.parse("multipart/form-data"), category);
-        RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("multipart/form-data"), description);
-        RequestBody requestBodyQuantity = RequestBody.create(MediaType.parse("multipart/form-data"), quantity);
-        RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("multipart/form-data"), price);
 
-        String strRealPath = RealPathUtil.getRealPath(getContext(), mUri);
+            RequestBody requestBodyName = RequestBody.create(MediaType.parse("multipart/form-data"), name);
+            RequestBody requestBodyCategory = RequestBody.create(MediaType.parse("multipart/form-data"), category);
+            RequestBody requestBodyDescription = RequestBody.create(MediaType.parse("multipart/form-data"), description);
+            RequestBody requestBodyQuantity = RequestBody.create(MediaType.parse("multipart/form-data"), quantity);
+            RequestBody requestBodyPrice = RequestBody.create(MediaType.parse("multipart/form-data"), price);
 
-        File file = new File(strRealPath);
-        RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part multipartBodyImg = MultipartBody.Part.createFormData("file", file.getName(), requestBodyImg);
+            String strRealPath = RealPathUtil.getRealPath(getContext(), mUri);
 
-        ApiServices.apiService.addProducts(DataLocalManager.getToken(), requestBodyName, requestBodyCategory, multipartBodyImg, requestBodyDescription, requestBodyQuantity, requestBodyPrice).enqueue(new Callback<Product>() {
-            @Override
-            public void onResponse(Call<Product> call, Response<Product> response) {
-                if(response.isSuccessful()){
-                    mProgressDialog.dismiss();
-                    Product p = response.body();
-                    Toast.makeText(getContext(), p.getName(), Toast.LENGTH_SHORT).show();
+            File file = new File(strRealPath);
+            RequestBody requestBodyImg = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            MultipartBody.Part multipartBodyImg = MultipartBody.Part.createFormData("file", file.getName(), requestBodyImg);
+
+            ApiServices.apiService.addProducts(DataLocalManager.getToken(), requestBodyName, requestBodyCategory, multipartBodyImg, requestBodyDescription, requestBodyQuantity, requestBodyPrice).enqueue(new Callback<Product>() {
+                @Override
+                public void onResponse(Call<Product> call, Response<Product> response) {
+                    if(response.isSuccessful()){
+                        progressBar.setVisibility(View.GONE);
+                        Product p = response.body();
+                        Toast.makeText(getContext(), "Đã thêm sản phẩm", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Product> call, Throwable t) {
-                mProgressDialog.dismiss();
-                Toast.makeText(getContext(), "fail api!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Product> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "fail api!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
+
+
 
 
     }

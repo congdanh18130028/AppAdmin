@@ -112,9 +112,12 @@ public interface ApiServices {
     @GET("api/bills/billDetails/{billId}")
     Call<List<BillDetails>> getListBillDetails(@Header("Authorization") String Aut,
                                                @Path("billId") int billId);
-    
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PATCH("api/bills/state")
-    Call<Void> confirmBill(@Query("billId") int billId, @Query("state") int sate);
+    Call<Void> confirmBill(@Header("Authorization") String Aut,
+                           @Query("billId") int billId,
+                           @Query("state") int sate);
 
     @POST("api/login")
     Call<Token> authenticateUser(@Query("email") String email,
